@@ -130,14 +130,6 @@ Projekt wykorzystuje SQLite z następującymi tabelami:
 - Przedmioty/Sprzęt
 - Lozka (łóżka pacjentów)
 
-## API Endpoints
-
-Dokumentacja dostępna w [README backendu](./backend/README.md)
-
-## Komponenty Frontend
-
-Szczegóły dotyczące komponentów Angular dostępne w [README frontendu](./frontend/README.md)
-
 ## Licencja
 
 Projekt utworzony na potrzeby szkolenia/kursu.
