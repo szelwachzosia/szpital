@@ -1,0 +1,66 @@
+<div class="container mt-4">
+  <h2>Wszystkie testy</h2>
+  <button class="btn btn-primary mb-2" (click)="openAddModal()">Dodaj test</button>
+  <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nazwa</th>
+        <th *ngIf="testy && testy.length && testy[0].opis !== undefined">Opis</th>
+        <th>Akcje</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of testy">
+        <td>{{ t.nazwa || '(brak nazwy)' }}</td>
+        <td *ngIf="t.opis !== undefined">{{ t.opis }}</td>
+        <td>
+          <button class="btn btn-primary btn-sm me-1" (click)="openEditModal(t)">Edytuj</button>
+          <button class="btn btn-danger btn-sm" (click)="confirmDelete(t)">Usuń</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="modal" tabindex="-1" [ngClass]="{ 'show d-block': showAddModal }" *ngIf="showAddModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Dodaj test</h5>
+          <button type="button" class="btn-close" (click)="closeAddModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="saveAdd()">
+            <div class="mb-2">
+              <label>Nazwa:</label>
+              <input class="form-control" [(ngModel)]="addForm.nazwa" name="nazwa" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Dodaj</button>
+            <button class="btn btn-secondary ms-2" type="button" (click)="closeAddModal()">Anuluj</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" tabindex="-1" [ngClass]="{ 'show d-block': showEditModal }" *ngIf="showEditModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edytuj test</h5>
+          <button type="button" class="btn-close" (click)="closeEditModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="saveEdit()">
+            <div class="mb-2">
+              <label>Nazwa:</label>
+              <input class="form-control" [(ngModel)]="editForm.nazwa" name="nazwa" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Zapisz</button>
+            <button class="btn btn-secondary ms-2" type="button" (click)="closeEditModal()">Anuluj</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

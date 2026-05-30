@@ -1,0 +1,154 @@
+<div class="container mt-32 test-pacjent-fade-in">
+  <div class="glass-card shadow-lg p-4 mb-4 rounded-5 test-pacjent-card-fade-in">
+    <h2 class="fw-bold mb-4 text-primary-emphasis gradient-text">Pracownicy</h2>
+    <button class="btn btn-gradient mb-3 test-pacjent-btn-fade-in" (click)="openAddModal()">
+      <i class="bi bi-plus-circle me-1"></i> Dodaj pracownika
+    </button>
+    <div *ngIf="errorMsg" class="alert alert-danger test-pacjent-alert-fade-in">{{ errorMsg }}</div>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped shadow rounded-4 overflow-hidden">
+        <thead class="table-primary">
+          <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Stanowisko</th>
+            <th>Specjalizacja</th>
+            <th>Adres</th>
+            <th>Telefon</th>
+            <th>Rodzaj pensji</th>
+            <th>Pensja</th>
+            <th>Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of pracownicy" class="align-middle test-pacjent-row-fade-in">
+            <td>{{p.imie}}</td>
+            <td>{{p.nazwisko}}</td>
+            <td>{{p.stanowisko}}</td>
+            <td>{{p.specjalizacja}}</td>
+            <td>{{p.adres}}</td>
+            <td>{{p.numer_telefonu}}</td>
+            <td>{{p.rodzaj_pensji}}</td>
+            <td>{{p.pensja}}</td>
+            <td>
+              <button class="btn btn-gradient btn-sm me-1" (click)="openEditModal(p)">Edytuj</button>
+              <button class="btn btn-danger btn-sm" (click)="confirmDelete(p)">Usuń</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showAddModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header">
+          <h5 class="modal-title gradient-text">Dodaj pracownika</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="closeAddModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="saveAdd()">
+            <div class="mb-3">
+              <label class="form-label">Imię</label>
+              <input class="form-control" [(ngModel)]="addForm.imie" name="add_imie">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nazwisko</label>
+              <input class="form-control" [(ngModel)]="addForm.nazwisko" name="add_nazwisko">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Stanowisko</label>
+              <select class="form-select" [(ngModel)]="addForm.stanowisko" name="add_stanowisko" (change)="onAddStanowiskoChange()">
+                <option *ngFor="let s of stanowiska" [value]="s">{{s}}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Specjalizacja</label>
+              <select class="form-select" [(ngModel)]="addForm.specjalizacja" name="add_specjalizacja" [disabled]="addForm.stanowisko !== 'lekarz' && addForm.stanowisko !== 'ordynator'">
+                <option *ngFor="let s of specjalizacje" [value]="s">{{s}}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Adres</label>
+              <input class="form-control" [(ngModel)]="addForm.adres" name="add_adres">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Telefon</label>
+              <input class="form-control" [(ngModel)]="addForm.numer_telefonu" name="add_numer_telefonu">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Rodzaj pensji</label>
+              <input class="form-control" [(ngModel)]="addForm.rodzaj_pensji" name="add_rodzaj_pensji">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Pensja</label>
+              <input class="form-control" [(ngModel)]="addForm.pensja" name="add_pensja">
+            </div>
+            <div *ngIf="errorMsg" class="alert alert-danger mt-2">{{errorMsg}}</div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-gradient btn-sm" (click)="closeAddModal()">Anuluj</button>
+          <button type="button" class="btn-gradient btn-sm" (click)="saveAdd()">Dodaj</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showEditModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header">
+          <h5 class="modal-title gradient-text">Edytuj pracownika</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="closeEditModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="saveEdit()">
+            <div class="mb-3">
+              <label class="form-label">Imię</label>
+              <input class="form-control" [(ngModel)]="editForm.imie" name="imie">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nazwisko</label>
+              <input class="form-control" [(ngModel)]="editForm.nazwisko" name="nazwisko">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Stanowisko</label>
+              <select class="form-select" [(ngModel)]="editForm.stanowisko" name="stanowisko" (change)="onEditStanowiskoChange()">
+                <option *ngFor="let s of stanowiska" [value]="s">{{s}}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Specjalizacja</label>
+              <select class="form-select" [(ngModel)]="editForm.specjalizacja" name="specjalizacja" [disabled]="editForm.stanowisko !== 'lekarz' && editForm.stanowisko !== 'ordynator'">
+                <option *ngFor="let s of specjalizacje" [value]="s">{{s}}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Adres</label>
+              <input class="form-control" [(ngModel)]="editForm.adres" name="adres">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Telefon</label>
+              <input class="form-control" [(ngModel)]="editForm.numer_telefonu" name="numer_telefonu">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Rodzaj pensji</label>
+              <input class="form-control" [(ngModel)]="editForm.rodzaj_pensji" name="rodzaj_pensji">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Pensja</label>
+              <input class="form-control" [(ngModel)]="editForm.pensja" name="pensja">
+            </div>
+            <div *ngIf="errorMsg" class="alert alert-danger mt-2">{{errorMsg}}</div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-gradient btn-sm" (click)="closeEditModal()">Anuluj</button>
+          <button type="button" class="btn-gradient btn-sm" (click)="saveEdit()">Zapisz</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

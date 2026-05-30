@@ -1,0 +1,99 @@
+<h2>Lekarze</h2>
+<button class="btn btn-success mb-3" (click)="openAddModal()">Dodaj lekarza</button>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Imię</th>
+      <th>Nazwisko</th>
+      <th>Oddział</th>
+      <th>Ordynator</th>
+      <th>Akcje</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let l of lekarze">
+      <td>{{l.pracownik_id}}</td>
+      <td>{{l.imie}}</td>
+      <td>{{l.nazwisko}}</td>
+      <td>{{getOddzialName(l.oddzial_id)}}</td>
+      <td>{{l.ordynator ? 'Tak' : 'Nie'}}</td>
+      <td>
+        <button class="btn btn-primary btn-sm me-1" (click)="openEditModal(l)">Edytuj</button>
+        <button class="btn btn-danger btn-sm" (click)="confirmDelete(l)">Usuń</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Modal dodawania lekarza -->
+<div class="modal fade show" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showAddModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Dodaj lekarza</h5>
+        <button type="button" class="btn-close" (click)="closeAddModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <label>Pracownik:</label>
+          <select class="form-select mb-2" [(ngModel)]="addForm.pracownik_id" name="pracownik_id">
+            <option value="">Wybierz pracownika</option>
+            <option *ngFor="let p of pracownicy" [value]="p.pracownik_id">{{p.imie}} {{p.nazwisko}}</option>
+          </select>
+          <input class="form-control mb-2" [(ngModel)]="addForm.specjalizacja" name="specjalizacja" placeholder="Specjalizacja">
+          <label>Ordynator:</label>
+          <select class="form-select mb-2" [(ngModel)]="addForm.ordynator_id" name="ordynator_id">
+            <option value="">Wybierz ordynatora</option>
+            <option *ngFor="let p of pracownicy" [value]="p.pracownik_id">{{p.imie}} {{p.nazwisko}}</option>
+          </select>
+          <label>Oddział:</label>
+          <select class="form-select mb-2" [(ngModel)]="addForm.oddzial_id" name="oddzial_id">
+            <option value="">Wybierz oddział</option>
+            <option *ngFor="let o of oddzialy" [value]="o.oddzial_id">{{o.nazwa}}</option>
+          </select>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeAddModal()">Anuluj</button>
+        <button class="btn btn-success" (click)="saveAdd()">Dodaj</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal edycji lekarza -->
+<div class="modal fade show" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showEditModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edytuj lekarza</h5>
+        <button type="button" class="btn-close" (click)="closeEditModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <label>Pracownik:</label>
+          <select class="form-select mb-2" [(ngModel)]="editForm.pracownik_id" name="edit_pracownik_id">
+            <option value="">Wybierz pracownika</option>
+            <option *ngFor="let p of pracownicy" [value]="p.pracownik_id">{{p.imie}} {{p.nazwisko}}</option>
+          </select>
+          <input class="form-control mb-2" [(ngModel)]="editForm.specjalizacja" name="edit_specjalizacja" placeholder="Specjalizacja">
+          <label>Ordynator:</label>
+          <select class="form-select mb-2" [(ngModel)]="editForm.ordynator_id" name="edit_ordynator_id">
+            <option value="">Wybierz ordynatora</option>
+            <option *ngFor="let p of pracownicy" [value]="p.pracownik_id">{{p.imie}} {{p.nazwisko}}</option>
+          </select>
+          <label>Oddział:</label>
+          <select class="form-select mb-2" [(ngModel)]="editForm.oddzial_id" name="edit_oddzial_id">
+            <option value="">Wybierz oddział</option>
+            <option *ngFor="let o of oddzialy" [value]="o.oddzial_id">{{o.nazwa}}</option>
+          </select>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeEditModal()">Anuluj</button>
+        <button class="btn btn-primary" (click)="saveEdit()">Zapisz</button>
+      </div>
+    </div>
+  </div>
+</div>

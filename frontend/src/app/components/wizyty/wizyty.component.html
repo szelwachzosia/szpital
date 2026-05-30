@@ -1,0 +1,116 @@
+<div class="container mt-32 test-pacjent-fade-in">
+  <div class="glass-card shadow-lg p-4 mb-4 rounded-5 test-pacjent-card-fade-in">
+    <h2 class="fw-bold mb-4 text-primary-emphasis gradient-text">Wizyty</h2>
+    <button class="btn btn-gradient mb-3 test-pacjent-btn-fade-in" (click)="openAddModal()">
+      <i class="bi bi-plus-circle me-1"></i> Dodaj wizytę
+    </button>
+    <div *ngIf="errorMsg" class="alert alert-danger test-pacjent-alert-fade-in">{{ errorMsg }}</div>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped shadow rounded-4 overflow-hidden">
+        <thead class="table-primary">
+          <tr>
+            <th>ID</th>
+            <th>Pacjent</th>
+            <th>Pracownik</th>
+            <th>Łóżko</th>
+            <th>Data przyjęcia</th>
+            <th>Data wypisu</th>
+            <th>Data wizyty</th>
+            <th>Rodzaj wizyty</th>
+            <th>Komentarz</th>
+            <th>Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let w of wizyty" class="align-middle test-pacjent-row-fade-in">
+            <td>{{w.wizyta_id}}</td>
+            <td>{{w.pacjent_id}}</td>
+            <td>{{w.pracownik_id}}</td>
+            <td>{{w.lozko_id}}</td>
+            <td>{{w.data_przyjecia}}</td>
+            <td>{{w.data_wypisu}}</td>
+            <td>{{w.data_wizyty}}</td>
+            <td>{{w.rodzaj_wizyty}}</td>
+            <td>{{w.komentarz}}</td>
+            <td>
+              <button class="btn btn-gradient btn-sm me-1" (click)="openEditModal(w)">Edytuj</button>
+              <button class="btn btn-danger btn-sm" (click)="confirmDelete(w)">Usuń</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showAddModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header">
+          <h5 class="modal-title">Dodaj wizytę</h5>
+          <button type="button" class="btn-close" (click)="closeAddModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <select class="form-control mb-2" [(ngModel)]="addForm.pacjent_id" name="pacjent_id">
+              <option value="">Wybierz pacjenta</option>
+              <option *ngFor="let p of pacjenci" [value]="p.pacjent_id">{{p.imie}} {{p.nazwisko}}</option>
+            </select>
+            <select class="form-control mb-2" [(ngModel)]="addForm.pracownik_id" name="pracownik_id">
+              <option value="">Wybierz pracownika</option>
+              <option *ngFor="let p of pracownicy" [value]="p.pracownik_id">{{p.imie}} {{p.nazwisko}}</option>
+            </select>
+            <select class="form-control mb-2" [(ngModel)]="addForm.lozko_id" name="lozko_id">
+              <option value="">Wybierz łóżko</option>
+              <option *ngFor="let l of lozka" [value]="l.lozko_id">{{l.lozko_id}}</option>
+            </select>
+            <input class="form-control mb-2" [(ngModel)]="addForm.data_przyjecia" name="data_przyjecia" placeholder="Data przyjęcia">
+            <input class="form-control mb-2" [(ngModel)]="addForm.data_wypisu" name="data_wypisu" placeholder="Data wypisu">
+            <input class="form-control mb-2" [(ngModel)]="addForm.data_wizyty" name="data_wizyty" placeholder="Data wizyty">
+            <input class="form-control mb-2" [(ngModel)]="addForm.rodzaj_wizyty" name="rodzaj_wizyty" placeholder="Rodzaj wizyty">
+            <input class="form-control mb-2" [(ngModel)]="addForm.komentarz" name="komentarz" placeholder="Komentarz">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="closeAddModal()">Anuluj</button>
+          <button class="btn btn-gradient" (click)="saveAdd()">Dodaj</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showEditModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header">
+          <h5 class="modal-title">Edytuj wizytę</h5>
+          <button type="button" class="btn-close" (click)="closeEditModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <select class="form-control mb-2" [(ngModel)]="editForm.pacjent_id" name="edit_pacjent_id">
+              <option value="">Wybierz pacjenta</option>
+              <option *ngFor="let p of pacjenci" [value]="p.pacjent_id">{{p.imie}} {{p.nazwisko}}</option>
+            </select>
+            <select class="form-control mb-2" [(ngModel)]="editForm.pracownik_id" name="edit_pracownik_id">
+              <option value="">Wybierz pracownika</option>
+              <option *ngFor="let p of pracownicy" [value]="p.pracownik_id">{{p.imie}} {{p.nazwisko}}</option>
+            </select>
+            <select class="form-control mb-2" [(ngModel)]="editForm.lozko_id" name="edit_lozko_id">
+              <option value="">Wybierz łóżko</option>
+              <option *ngFor="let l of lozka" [value]="l.lozko_id">{{l.lozko_id}}</option>
+            </select>
+            <input class="form-control mb-2" [(ngModel)]="editForm.data_przyjecia" name="edit_data_przyjecia" placeholder="Data przyjęcia">
+            <input class="form-control mb-2" [(ngModel)]="editForm.data_wypisu" name="edit_data_wypisu" placeholder="Data wypisu">
+            <input class="form-control mb-2" [(ngModel)]="editForm.data_wizyty" name="edit_data_wizyty" placeholder="Data wizyty">
+            <input class="form-control mb-2" [(ngModel)]="editForm.rodzaj_wizyty" name="edit_rodzaj_wizyty" placeholder="Rodzaj wizyty">
+            <input class="form-control mb-2" [(ngModel)]="editForm.komentarz" name="edit_komentarz" placeholder="Komentarz">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="closeEditModal()">Anuluj</button>
+          <button class="btn btn-gradient" (click)="saveEdit()">Zapisz</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

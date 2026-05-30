@@ -1,0 +1,232 @@
+<div class="container mt-32 test-pacjent-fade-in">
+  <div class="glass-card shadow-lg p-4 mb-4 rounded-5 test-pacjent-card-fade-in">
+    <h2 class="fw-bold mb-4 text-primary-emphasis gradient-text">Zabiegi - powiązania z wizytami (pacjentami)</h2>
+    <button class="btn btn-gradient mb-3 test-pacjent-btn-fade-in" (click)="openAddZW()">
+      <i class="bi bi-plus-circle me-1"></i> Dodaj powiązanie zabieg-wizyta
+    </button>
+    <div *ngIf="errorMsg" class="alert alert-danger test-pacjent-alert-fade-in">{{ errorMsg }}</div>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped shadow rounded-4 overflow-hidden">
+        <thead class="table-primary">
+          <tr>
+            <th>Zabieg</th>
+            <th>Wizyta</th>
+            <th>Typ</th>
+            <th>Data</th>
+            <th>Godzina</th>
+            <th>Opis</th>
+            <th>Wynik</th>
+            <th>Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let zw of zabiegiWizyty" class="align-middle test-pacjent-row-fade-in">
+            <td>{{ zw.zabieg_id }}</td>
+            <td>{{ getWizytaDesc(zw.wizyta_id) }}</td>
+            <td>{{ zw.typ }}</td>
+            <td>{{ zw.data }}</td>
+            <td>{{ zw.godzina }}</td>
+            <td>{{ zw.opis }}</td>
+            <td>{{ zw.wynik }}</td>
+            <td>
+              <button class="btn btn-sm btn-gradient me-2 test-pacjent-btn-fade-in" (click)="openEditZW(zw)"><i class="bi bi-pencil"></i> Edytuj</button>
+              <button class="btn btn-sm btn-danger test-pacjent-btn-fade-in" (click)="confirmDeleteZW(zw)"><i class="bi bi-trash"></i> Usuń</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showAddZW">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-4 shadow-lg glass-card animate-fade-in">
+        <div class="modal-header border-0 bg-transparent">
+          <h5 class="modal-title fw-bold">Dodaj powiązanie zabieg-wizyta</h5>
+          <button type="button" class="btn-close" (click)="closeAddZW()"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="saveAddZW()" autocomplete="off">
+            <div *ngIf="errorMsg" class="alert alert-danger mb-3">{{errorMsg}}</div>
+            <div class="mb-3">
+              <label class="form-label">Zabieg</label>
+              <select class="form-select glass-input" [(ngModel)]="addFormZW.zabieg_id" name="zabieg_id" required>
+                <option value="">Wybierz zabieg</option>
+                <option *ngFor="let z of zabiegi" [value]="z.zabieg_id">Zabieg #{{z.zabieg_id}}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Wizyta</label>
+              <select class="form-select glass-input" [(ngModel)]="addFormZW.wizyta_id" name="wizyta_id" required>
+                <option value="">Wybierz wizytę</option>
+                <option *ngFor="let w of wizyty" [value]="w.wizyta_id">Wizyta #{{w.wizyta_id}}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Typ</label>
+              <input class="form-control glass-input" [(ngModel)]="addFormZW.typ" name="typ" required maxlength="50" placeholder="Typ zabiegu">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Data</label>
+              <input class="form-control glass-input" [(ngModel)]="addFormZW.data" name="data" type="date" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Godzina</label>
+              <input class="form-control glass-input" [(ngModel)]="addFormZW.godzina" name="godzina" type="number" min="0" max="23" required placeholder="Godzina (0-23)">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Opis</label>
+              <input class="form-control glass-input" [(ngModel)]="addFormZW.opis" name="opis" maxlength="255" placeholder="Opis zabiegu">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Wynik</label>
+              <input class="form-control glass-input" [(ngModel)]="addFormZW.wynik" name="wynik" maxlength="255" placeholder="Wynik zabiegu">
+            </div>
+            <div class="d-flex justify-content-end gap-2 mt-4">
+              <button type="button" class="btn btn-secondary rounded-4 px-4" (click)="closeAddZW()">Anuluj</button>
+              <button type="submit" class="btn btn-gradient rounded-4 px-4 shadow">Dodaj</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showEditZW">
+    <div class="modal-dialog">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title">Edytuj powiązanie zabieg-wizyta</h5>
+          <button type="button" class="btn-close" (click)="closeEditZW()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-2">
+              <label>Wizyta:</label>
+              <select class="form-select" [(ngModel)]="editFormZW.wizyta_id" name="wizyta_id_edit">
+                <option *ngFor="let w of wizyty" [value]="w.wizyta_id">Wizyta #{{w.wizyta_id}}</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              <label>Typ:</label>
+              <input class="form-control" [(ngModel)]="editFormZW.typ" name="typ_edit">
+            </div>
+            <div class="mb-2">
+              <label>Data:</label>
+              <input type="date" class="form-control" [(ngModel)]="editFormZW.data" name="data_edit">
+            </div>
+            <div class="mb-2">
+              <label>Godzina:</label>
+              <input class="form-control" [(ngModel)]="editFormZW.godzina" name="godzina_edit">
+            </div>
+            <div class="mb-2">
+              <label>Opis:</label>
+              <input class="form-control" [(ngModel)]="editFormZW.opis" name="opis_edit">
+            </div>
+            <div class="mb-2">
+              <label>Wynik:</label>
+              <input class="form-control" [(ngModel)]="editFormZW.wynik" name="wynik_edit">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="closeEditZW()">Anuluj</button>
+          <button class="btn btn-gradient" (click)="saveEditZW()">Zapisz</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="my-4">
+  <div class="glass-card shadow-lg p-4 mb-4 rounded-5 test-pacjent-card-fade-in">
+    <h2 class="fw-bold mb-4 text-primary-emphasis gradient-text">Zabiegi - powiązania z lekarzami</h2>
+    <button class="btn btn-gradient mb-3 test-pacjent-btn-fade-in" (click)="openAddZL()">
+      <i class="bi bi-plus-circle me-1"></i> Dodaj powiązanie zabieg-lekarz
+    </button>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped shadow rounded-4 overflow-hidden">
+        <thead class="table-primary">
+          <tr>
+            <th>Zabieg</th>
+            <th>Lekarz</th>
+            <th>Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let zl of zabiegiLekarze" class="align-middle test-pacjent-row-fade-in">
+            <td>{{ zl.zabieg_id }}</td>
+            <td>{{ getLekarzName(zl.lekarz_id) }}</td>
+            <td>
+              <button class="btn btn-sm btn-gradient me-2 test-pacjent-btn-fade-in" (click)="openEditZL(zl)"><i class="bi bi-pencil"></i> Edytuj</button>
+              <button class="btn btn-sm btn-danger test-pacjent-btn-fade-in" (click)="confirmDeleteZL(zl)"><i class="bi bi-trash"></i> Usuń</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showAddZL">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-4 shadow-lg glass-card animate-fade-in">
+        <div class="modal-header border-0 bg-transparent">
+          <h5 class="modal-title fw-bold">Dodaj powiązanie zabieg-lekarz</h5>
+          <button type="button" class="btn-close" (click)="closeAddZL()"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="saveAddZL()" autocomplete="off">
+            <div *ngIf="errorMsg" class="alert alert-danger mb-3">{{errorMsg}}</div>
+            <div class="mb-3">
+              <label class="form-label">Zabieg</label>
+              <select class="form-select glass-input" [(ngModel)]="addFormZL.zabieg_id" name="zabieg_id" required>
+                <option value="">Wybierz zabieg</option>
+                <option *ngFor="let z of zabiegi" [value]="z.zabieg_id">Zabieg #{{z.zabieg_id}}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Lekarz</label>
+              <select class="form-select glass-input" [(ngModel)]="addFormZL.lekarz_id" name="lekarz_id" required>
+                <option value="">Wybierz lekarza</option>
+                <option *ngFor="let l of lekarze" [value]="l.pracownik_id">{{l.imie}} {{l.nazwisko}}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Rola</label>
+              <input class="form-control glass-input" [(ngModel)]="addFormZL.rola" name="rola" maxlength="50" placeholder="Rola lekarza przy zabiegu">
+            </div>
+            <div class="d-flex justify-content-end gap-2 mt-4">
+              <button type="button" class="btn btn-secondary rounded-4 px-4" (click)="closeAddZL()">Anuluj</button>
+              <button type="submit" class="btn btn-gradient rounded-4 px-4 shadow">Dodaj</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showEditZL">
+    <div class="modal-dialog">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title">Edytuj powiązanie zabieg-lekarz</h5>
+          <button type="button" class="btn-close" (click)="closeEditZL()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-2">
+              <label>Zabieg:</label>
+              <select class="form-select" [(ngModel)]="editFormZL.zabieg_id" name="zabieg_id_edit">
+                <option *ngFor="let z of zabiegi" [value]="z.zabieg_id">Zabieg #{{z.zabieg_id}}</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              <label>Lekarz:</label>
+              <select class="form-select" [(ngModel)]="editFormZL.lekarz_id" name="lekarz_id_edit">
+                <option *ngFor="let l of lekarze" [value]="l.pracownik_id">{{l.imie}} {{l.nazwisko}}</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="closeEditZL()">Anuluj</button>
+          <button class="btn btn-gradient" (click)="saveEditZL()">Zapisz</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

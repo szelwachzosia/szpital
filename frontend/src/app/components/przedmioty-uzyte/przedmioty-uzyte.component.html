@@ -1,0 +1,94 @@
+<div class="container mt-32 test-pacjent-fade-in">
+  <div class="glass-card shadow-lg p-4 mb-4 rounded-5 test-pacjent-card-fade-in">
+    <h2 class="fw-bold mb-4 text-primary-emphasis gradient-text">Przedmioty użyte podczas wizyt</h2>
+    <button class="btn btn-gradient mb-3 test-pacjent-btn-fade-in" (click)="openAddModal()">
+      <i class="bi bi-plus-circle me-1"></i> Dodaj użycie przedmiotu
+    </button>
+    <div *ngIf="errorMsg" class="alert alert-danger test-pacjent-alert-fade-in">{{errorMsg}}</div>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped shadow rounded-4 overflow-hidden">
+        <thead class="table-primary">
+          <tr>
+            <th>Przedmiot</th>
+            <th>Wizyta</th>
+            <th>Ilość</th>
+            <th>Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pu of przedmiotyUzyte" class="align-middle test-pacjent-row-fade-in">
+            <td>{{getPrzedmiotName(pu.przedmiot_id)}}</td>
+            <td>{{getWizytaName(pu.wizyta_id)}}</td>
+            <td>{{pu.ilosc_zuzyta}}</td>
+            <td>
+              <button class="btn btn-gradient btn-sm me-1" (click)="openEditModal(pu)">Edytuj</button>
+              <button class="btn btn-danger btn-sm" (click)="confirmDelete(pu)">Usuń</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showAddModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header">
+          <h5 class="modal-title">Dodaj użycie przedmiotu</h5>
+          <button type="button" class="btn-close" (click)="closeAddModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="saveAdd()">
+            <div class="mb-2">
+              <label>Przedmiot:</label>
+              <select class="form-select" [(ngModel)]="addForm.przedmiot_id" name="przedmiot_id" required>
+                <option *ngFor="let p of przedmioty" [value]="p.przedmiot_id">{{p.nazwa}}</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              <label>Wizyta:</label>
+              <select class="form-select" [(ngModel)]="addForm.wizyta_id" name="wizyta_id" required>
+                <option *ngFor="let w of wizyty" [value]="w.wizyta_id">Wizyta #{{w.wizyta_id}}</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              <label>Data użycia:</label>
+              <input class="form-control" type="date" [(ngModel)]="addForm.data_uzycia" name="data_uzycia" required>
+            </div>
+            <div class="mb-2">
+              <label>Godzina użycia:</label>
+              <input class="form-control" type="number" min="0" max="23" [(ngModel)]="addForm.godz_uzycia" name="godz_uzycia" required>
+            </div>
+            <div class="mb-2">
+              <label>Ilość zużyta:</label>
+              <input class="form-control" type="number" min="1" [(ngModel)]="addForm.ilosc_zuzyta" name="ilosc_zuzyta" required>
+            </div>
+            <button class="btn btn-gradient" type="submit">Dodaj</button>
+            <button class="btn btn-secondary ms-2" type="button" (click)="closeAddModal()">Anuluj</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showEditModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header">
+          <h5 class="modal-title">Edytuj użycie przedmiotu</h5>
+          <button type="button" class="btn-close" (click)="closeEditModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="saveEdit()">
+            <div class="mb-2">
+              <label>Ilość zużyta:</label>
+              <input class="form-control" type="number" min="1" [(ngModel)]="editForm.ilosc_zuzyta" name="ilosc_zuzyta" required>
+            </div>
+            <button class="btn btn-gradient" type="submit">Zapisz</button>
+            <button class="btn btn-secondary ms-2" type="button" (click)="closeEditModal()">Anuluj</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

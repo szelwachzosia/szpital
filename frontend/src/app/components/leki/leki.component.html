@@ -1,0 +1,107 @@
+<div class="container mt-32 test-pacjent-fade-in">
+  <div class="glass-card shadow-lg p-4 mb-4 rounded-5 test-pacjent-card-fade-in">
+    <h2 class="fw-bold mb-4 text-primary-emphasis gradient-text">Leki</h2>
+    <button class="btn btn-gradient mb-3 test-pacjent-btn-fade-in" (click)="openAddModal()">
+      <i class="bi bi-plus-circle me-1"></i> Dodaj lek
+    </button>
+    <div *ngIf="errorMsg" class="alert alert-danger test-pacjent-alert-fade-in">{{ errorMsg }}</div>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped shadow rounded-4 overflow-hidden">
+        <thead class="table-primary">
+          <tr>
+            <th>Nazwa</th>
+            <th>Typ</th>
+            <th>Producent</th>
+            <th>Data przeterminowania</th>
+            <th>Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let lek of leki" class="align-middle test-pacjent-row-fade-in">
+            <td>{{ lek.nazwa }}</td>
+            <td>{{ lek.typ }}</td>
+            <td>{{ lek.producent }}</td>
+            <td>{{ lek.data_przeterminowania | date:'yyyy-MM-dd' }}</td>
+            <td>
+              <button class="btn btn-gradient btn-sm me-1" (click)="openEditModal(lek)">Edytuj</button>
+              <button class="btn btn-danger btn-sm" (click)="deleteLek(lek)">Usuń</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal Dodawania -->
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showAddModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-4 shadow-lg glass-card animate-fade-in">
+        <div class="modal-header border-0 bg-transparent">
+          <h5 class="modal-title fw-bold">Dodaj nowy lek</h5>
+          <button type="button" class="btn-close" (click)="closeAddModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="saveAdd()" autocomplete="off">
+            <div *ngIf="errorMsg" class="alert alert-danger mb-3">{{errorMsg}}</div>
+            <div class="mb-3">
+              <label class="form-label">Nazwa</label>
+              <input class="form-control glass-input" [(ngModel)]="addForm.nazwa" name="nazwa" required maxlength="100" placeholder="Nazwa leku">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Typ</label>
+              <input class="form-control glass-input" [(ngModel)]="addForm.typ" name="typ" required maxlength="50" placeholder="Typ leku">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Producent</label>
+              <input class="form-control glass-input" [(ngModel)]="addForm.producent" name="producent" required maxlength="100" placeholder="Producent">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Data przeterminowania</label>
+              <input class="form-control glass-input" [(ngModel)]="addForm.data_przeterminowania" name="data_przeterminowania" type="date" required>
+            </div>
+            <div class="d-flex justify-content-end gap-2 mt-4">
+              <button type="button" class="btn btn-secondary rounded-4 px-4" (click)="closeAddModal()">Anuluj</button>
+              <button type="submit" class="btn btn-gradient rounded-4 px-4 shadow">Dodaj</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Edycji -->
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showEditModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header">
+          <h5 class="modal-title">Edytuj lek</h5>
+          <button type="button" class="btn-close" (click)="closeEditModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label">Nazwa</label>
+              <input class="form-control" [(ngModel)]="editForm.nazwa" name="edit_nazwa">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Typ</label>
+              <input class="form-control" [(ngModel)]="editForm.typ" name="edit_typ">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Producent</label>
+              <input class="form-control" [(ngModel)]="editForm.producent" name="edit_producent">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Data przeterminowania</label>
+              <input class="form-control" type="date" [(ngModel)]="editForm.data_przeterminowania" name="edit_data_przeterminowania">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="closeEditModal()">Anuluj</button>
+          <button class="btn btn-gradient" (click)="saveEdit()">Zapisz</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

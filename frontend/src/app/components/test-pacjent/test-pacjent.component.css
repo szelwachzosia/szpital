@@ -1,0 +1,83 @@
+.glass-card {
+  background: rgba(255,255,255,0.85);
+  border-radius: 2.5rem;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.25);
+  max-width: 2000px;
+  margin: 0 auto;
+}
+.gradient-text {
+  background: linear-gradient(90deg, #1976d2 0%, #0d47a1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.btn-gradient {
+  background: linear-gradient(90deg, #0d47a1 0%, #1976d2 100%);
+  color: #fff;
+  border: none;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px 0 rgba(25, 118, 210, 0.10);
+}
+.btn-gradient:hover {
+  background: linear-gradient(90deg, #1976d2 0%, #0d47a1 100%);
+  color: #ffd600;
+  box-shadow: 0 4px 16px 0 rgba(25, 118, 210, 0.18);
+}
+.table {
+  border-radius: 16px;
+  overflow: hidden;
+}
+.modal-content {
+  border-radius: 1.5rem;
+}
+@media (max-width: 768px) {
+  .glass-card {
+    padding: 1rem;
+    border-radius: 1.2rem;
+  }
+}
+
+.test-pacjent-fade-in {
+  animation: testPacjentFadeIn 0.8s cubic-bezier(0.4,0,0.2,1) 0.1s both;
+}
+@keyframes testPacjentFadeIn {
+  0% { opacity: 0; transform: translateY(32px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.test-pacjent-card-fade-in {
+  animation: testPacjentCardFadeIn 0.7s cubic-bezier(0.4,0,0.2,1) 0.2s both;
+}
+@keyframes testPacjentCardFadeIn {
+  0% { opacity: 0; transform: translateY(-24px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.test-pacjent-btn-fade-in {
+  animation: testPacjentBtnFadeIn 0.6s cubic-bezier(0.4,0,0.2,1) 0.3s both;
+}
+@keyframes testPacjentBtnFadeIn {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.test-pacjent-row-fade-in {
+  animation: testPacjentRowFadeIn 0.7s cubic-bezier(0.4,0,0.2,1) 0.25s both;
+}
+@keyframes testPacjentRowFadeIn {
+  0% { opacity: 0; transform: translateY(16px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.test-pacjent-alert-fade-in {
+  animation: testPacjentAlertFadeIn 0.7s cubic-bezier(0.4,0,0.2,1) 0.2s both;
+}
+@keyframes testPacjentAlertFadeIn {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.test-pacjent-modal-fade-in {
+  animation: testPacjentModalFadeIn 0.7s cubic-bezier(0.4,0,0.2,1) 0.2s both;
+}
+@keyframes testPacjentModalFadeIn {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}

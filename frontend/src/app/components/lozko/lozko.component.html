@@ -1,0 +1,79 @@
+<div class="container mt-32 test-pacjent-fade-in">
+  <div class="glass-card shadow-lg p-4 mb-4 rounded-5 test-pacjent-card-fade-in">
+    <h2 class="fw-bold mb-4 text-primary-emphasis gradient-text">Łóżka</h2>
+    <button class="btn btn-gradient mb-3 test-pacjent-btn-fade-in" (click)="openAddModal()">
+      <i class="bi bi-plus-circle me-1"></i> Dodaj łóżko
+    </button>
+    <div *ngIf="errorMsg" class="alert alert-danger test-pacjent-alert-fade-in">{{ errorMsg }}</div>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped shadow rounded-4 overflow-hidden">
+        <thead class="table-primary">
+          <tr>
+            <th>Pokój nr</th>
+            <th>Oddział</th>
+            <th>Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let l of lozka" class="align-middle test-pacjent-row-fade-in">
+            <td>{{l.pokoj_nr}}</td>
+            <td>{{getOddzialName(l.oddzial_id)}}</td>
+            <td>
+              <button class="btn btn-gradient btn-sm me-1" (click)="openEditModal(l)">Edytuj</button>
+              <button class="btn btn-danger btn-sm" (click)="confirmDelete(l)">Usuń</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal dodawania łóżka -->
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showAddModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header">
+          <h5 class="modal-title">Dodaj łóżko</h5>
+          <button type="button" class="btn-close" (click)="closeAddModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <input class="form-control mb-2" [(ngModel)]="addForm.pokoj_nr" name="pokoj_nr" placeholder="Pokój nr">
+            <select class="form-control mb-2" [(ngModel)]="addForm.oddzial_id" name="oddzial_id">
+              <option [ngValue]="''" disabled>Wybierz oddział</option>
+              <option *ngFor="let o of oddzialy" [ngValue]="o.oddzial_id">{{o.nazwa}}</option>
+            </select>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-gradient" (click)="saveAdd()">Dodaj</button>
+          <button class="btn btn-secondary" (click)="closeAddModal()">Anuluj</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showEditModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header">
+          <h5 class="modal-title">Edytuj łóżko</h5>
+          <button type="button" class="btn-close" (click)="closeEditModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <input class="form-control mb-2" [(ngModel)]="editForm.pokoj_nr" name="pokoj_nr" placeholder="Pokój nr">
+            <select class="form-control mb-2" [(ngModel)]="editForm.oddzial_id" name="oddzial_id">
+              <option [ngValue]="''" disabled>Wybierz oddział</option>
+              <option *ngFor="let o of oddzialy" [ngValue]="o.oddzial_id">{{o.nazwa}}</option>
+            </select>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-gradient" (click)="saveEdit()">Zapisz</button>
+          <button class="btn btn-secondary" (click)="closeEditModal()">Anuluj</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

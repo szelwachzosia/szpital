@@ -1,0 +1,90 @@
+<div class="container mt-32 test-pacjent-fade-in">
+  <div class="glass-card shadow-lg p-4 mb-4 rounded-5 test-pacjent-card-fade-in">
+    <h2 class="fw-bold mb-4 text-primary-emphasis gradient-text">Leki podane podczas wizyty</h2>
+    <button class="btn btn-gradient mb-3 test-pacjent-btn-fade-in" (click)="openAddModalLW()">
+      <i class="bi bi-plus-circle me-1"></i> Dodaj lek do wizyty
+    </button>
+    <div *ngIf="errorMsg" class="alert alert-danger test-pacjent-alert-fade-in">{{ errorMsg }}</div>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped shadow rounded-4 overflow-hidden">
+        <thead class="table-primary">
+          <tr>
+            <th>Wizyta</th>
+            <th>Lek</th>
+            <th>Dawka</th>
+            <th>Komentarz</th>
+            <th>Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let l of lekiWizyta" class="align-middle test-pacjent-row-fade-in">
+            <td>{{getWizytaDesc(l.wizyta_id)}}</td>
+            <td>{{getLekName(l.lek_id)}}</td>
+            <td>{{l.dawka}}</td>
+            <td>{{l.komentarz}}</td>
+            <td>
+              <button class="btn btn-sm btn-gradient me-2 test-pacjent-btn-fade-in" (click)="openEditModalLW(l)"><i class="bi bi-pencil"></i> Edytuj</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showAddModalLW">
+    <div class="modal-dialog">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title">Dodaj lek do wizyty</h5>
+          <button type="button" class="btn-close" (click)="closeAddModalLW()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <select class="form-control mb-2" [(ngModel)]="addFormLW.wizyta_id" name="wizyta_id">
+              <option value="">Wybierz wizytę</option>
+              <option *ngFor="let w of wizyty" [value]="w.wizyta_id">{{getWizytaDesc(w.wizyta_id)}}</option>
+            </select>
+            <select class="form-control mb-2" [(ngModel)]="addFormLW.lek_id" name="lek_id">
+              <option value="">Wybierz lek</option>
+              <option *ngFor="let l of leki" [value]="l.lek_id">{{l.nazwa}}</option>
+            </select>
+            <input class="form-control mb-2" [(ngModel)]="addFormLW.dawka" name="dawka" placeholder="Dawka">
+            <input class="form-control mb-2" [(ngModel)]="addFormLW.komentarz" name="komentarz" placeholder="Komentarz">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="closeAddModalLW()">Anuluj</button>
+          <button class="btn btn-gradient" (click)="saveAddLW()">Dodaj</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal edycji lek_wizyta -->
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showEditModalLW">
+    <div class="modal-dialog">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title">Edytuj lek do wizyty</h5>
+          <button type="button" class="btn-close" (click)="closeEditModalLW()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <select class="form-control mb-2" [(ngModel)]="editFormLW.wizyta_id" name="edit_wizyta_id" disabled>
+              <option value="">Wybierz wizytę</option>
+              <option *ngFor="let w of wizyty" [value]="w.wizyta_id">{{getWizytaDesc(w.wizyta_id)}}</option>
+            </select>
+            <select class="form-control mb-2" [(ngModel)]="editFormLW.lek_id" name="edit_lek_id" disabled>
+              <option value="">Wybierz lek</option>
+              <option *ngFor="let l of leki" [value]="l.lek_id">{{l.nazwa}}</option>
+            </select>
+            <input class="form-control mb-2" [(ngModel)]="editFormLW.dawka" name="edit_dawka" placeholder="Dawka">
+            <input class="form-control mb-2" [(ngModel)]="editFormLW.komentarz" name="edit_komentarz" placeholder="Komentarz">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="closeEditModalLW()">Anuluj</button>
+          <button class="btn btn-gradient" (click)="saveEditLW()">Zapisz</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

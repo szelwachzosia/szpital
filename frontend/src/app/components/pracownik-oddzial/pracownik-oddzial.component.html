@@ -1,0 +1,86 @@
+<div class="container mt-4">
+  <h2>Pracownik-Oddział</h2>
+  <button class="btn btn-primary mb-2" (click)="openAddModal()">Dodaj przypisanie</button>
+  <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Pracownik</th>
+        <th>Oddział</th>
+        <th>Akcje</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let po of pracownikOddzial">
+        <td>{{ getPracownikName(po.pracownik_id) }}</td>
+        <td>{{ getOddzialName(po.oddzial_id) }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm me-2" (click)="openEditModal(po)">Edytuj</button>
+          <button class="btn btn-danger btn-sm" (click)="confirmDelete(po)">Usuń</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="modal" tabindex="-1" [ngClass]="{ 'show d-block': showAddModal }" *ngIf="showAddModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Dodaj przypisanie</h5>
+          <button type="button" class="btn-close" (click)="closeAddModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label">Pracownik</label>
+              <select class="form-select" [(ngModel)]="addForm.pracownik_id" name="pracownik_id">
+                <option *ngFor="let p of pracownicy" [value]="p.pracownik_id">{{ p.imie }} {{ p.nazwisko }}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Oddział</label>
+              <select class="form-select" [(ngModel)]="addForm.oddzial_id" name="oddzial_id">
+                <option *ngFor="let o of oddzialy" [value]="o.oddzial_id">{{ o.nazwa }}</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeAddModal()">Anuluj</button>
+          <button type="button" class="btn btn-primary" (click)="saveAdd()">Dodaj</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" tabindex="-1" [ngClass]="{ 'show d-block': showEditModal }" *ngIf="showEditModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edytuj przypisanie</h5>
+          <button type="button" class="btn-close" (click)="closeEditModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label">Pracownik</label>
+              <select class="form-select" [(ngModel)]="editForm.pracownik_id" name="pracownik_id_edit">
+                <option *ngFor="let p of pracownicy" [value]="p.pracownik_id">{{ p.imie }} {{ p.nazwisko }}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Oddział</label>
+              <select class="form-select" [(ngModel)]="editForm.oddzial_id" name="oddzial_id_edit">
+                <option *ngFor="let o of oddzialy" [value]="o.oddzial_id">{{ o.nazwa }}</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeEditModal()">Anuluj</button>
+          <button type="button" class="btn btn-primary" (click)="saveEdit()">Zapisz</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

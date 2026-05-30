@@ -1,0 +1,59 @@
+.glass-card {
+  background: rgba(255,255,255,0.85);
+  border-radius: 2.5rem;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.25);
+  max-width: 2000px;
+  margin: 0 auto 2rem auto;
+}
+.gradient-text {
+  background: linear-gradient(90deg, #1976d2 0%, #0d47a1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.btn-gradient {
+  background: linear-gradient(90deg, #0d47a1 0%, #1976d2 100%);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(79,140,255,0.12);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn-gradient:hover {
+  background: linear-gradient(90deg, #1976d2 0%, #0d47a1 100%);
+  color: #ffd600;
+  box-shadow: 0 4px 16px 0 rgba(25, 118, 210, 0.18);
+}
+.table {
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.12);
+  box-shadow: 0 2px 12px rgba(31,38,135,0.10);
+  animation: testPacjentTableFadeIn 0.7s;
+}
+@keyframes testPacjentTableFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+.modal-content {
+  border-radius: 1.5rem;
+  background: rgba(255,255,255,0.85);
+  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
+  border: 1.5px solid rgba(255,255,255,0.28);
+  animation: testPacjentModalFadeIn 0.6s cubic-bezier(.4,0,.2,1);
+}
+@keyframes testPacjentModalFadeIn {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.fade-in {
+  animation: testPacjentFadeIn 0.7s cubic-bezier(.4,0,.2,1);
+}
+@keyframes testPacjentFadeIn {
+  0% { opacity: 0; transform: translateY(32px) scale(0.98); }
+  100% { opacity: 1; transform: none; }
+}

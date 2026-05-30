@@ -1,0 +1,116 @@
+<div class="container mt-32 test-pacjent-fade-in">
+  <div class="glass-card shadow-lg p-4 mb-4 rounded-5 test-pacjent-card-fade-in">
+    <h2 class="fw-bold mb-4 text-primary-emphasis gradient-text">Zmiany</h2>
+    <button class="btn btn-gradient mb-3 test-pacjent-btn-fade-in" (click)="openAddModal()">
+      <i class="bi bi-plus-circle me-1"></i> Dodaj zmianę
+    </button>
+    <div *ngIf="errorMsg" class="alert alert-danger test-pacjent-alert-fade-in">{{ errorMsg }}</div>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped shadow rounded-4 overflow-hidden">
+        <thead class="table-primary">
+          <tr>
+            <th>Pracownik ID</th>
+            <th>Imie</th>
+            <th>Nazwisko</th>
+            <th>Oddział ID</th>
+            <th>Oddzial nazwa</th>
+            <th>Tydzień start</th>
+            <th>Ilość godzin</th>
+            <th>Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let zmiana of zmiany" class="align-middle test-pacjent-row-fade-in">
+            <td>{{zmiana.pracownik_id}}</td>
+            <td>{{zmiana.imie}}</td>
+            <td>{{zmiana.nazwisko}}</td>
+            <td>{{zmiana.oddzial_id}}</td>
+            <td>{{zmiana.oddzial_nazwa}}</td>
+            <td>{{zmiana.tydzien_start}}</td>
+            <td>{{zmiana.ilosc_godzin}}</td>
+            <td>
+              <button class="btn btn-gradient btn-sm me-1" (click)="openEditModal(zmiana)">Edytuj</button>
+              <button class="btn btn-danger btn-sm" (click)="confirmDelete(zmiana)">Usuń</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showAddModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header">
+          <h5 class="modal-title">Dodaj zmianę</h5>
+          <button type="button" class="btn-close" (click)="closeAddModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="addZmiana()">
+            <div class="mb-2">
+              <label>Pracownik:</label>
+              <select class="form-select" [(ngModel)]="newZmiana.pracownik_id" name="pracownik_id" required>
+                <option *ngFor="let p of pracownicy" [value]="p.pracownik_id">{{p.imie}} {{p.nazwisko}}</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              <label>Oddział:</label>
+              <select class="form-select" [(ngModel)]="newZmiana.oddzial_id" name="oddzial_id" required>
+                <option *ngFor="let o of oddzialy" [value]="o.oddzial_id">{{o.nazwa}}</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              <label>Tydzień start:</label>
+              <input class="form-control" type="date" [(ngModel)]="newZmiana.tydzien_start" name="tydzien_start" required>
+            </div>
+            <div class="mb-2">
+              <label>Ilość godzin:</label>
+              <input class="form-control" type="number" min="1" [(ngModel)]="newZmiana.ilosc_godzin" name="ilosc_godzin" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Dodaj</button>
+            <button class="btn btn-secondary ms-2" type="button" (click)="closeAddModal()">Anuluj</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showEditModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header">
+          <h5 class="modal-title">Edytuj zmianę</h5>
+          <button type="button" class="btn-close" (click)="closeEditModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="updateZmiana()">
+            <div class="mb-2">
+              <label>Ilość godzin:</label>
+              <input class="form-control" type="number" min="1" [(ngModel)]="newZmiana.ilosc_godzin" name="ilosc_godzin" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Zapisz</button>
+            <button class="btn btn-secondary ms-2" type="button" (click)="closeEditModal()">Anuluj</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade show test-pacjent-modal-fade-in" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="showDeleteModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-4 shadow-lg">
+        <div class="modal-header">
+          <h5 class="modal-title">Usuń zmianę</h5>
+          <button type="button" class="btn-close" (click)="closeDeleteModal()"></button>
+        </div>
+        <div class="modal-body">
+          Czy na pewno chcesz usunąć tę zmianę?
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger" (click)="deleteZmiana()">Usuń</button>
+          <button class="btn btn-secondary ms-2" (click)="closeDeleteModal()">Anuluj</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
