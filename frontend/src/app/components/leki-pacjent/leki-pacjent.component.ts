@@ -28,15 +28,15 @@ export class LekiPacjentComponent implements OnInit {
   }
 
   loadAll() {
-    this.http.get<any[]>('http://localhost:5000/api/lek_wizyta').subscribe({
+    this.http.get<any[]>('http://localhost:5001/api/lek_wizyta').subscribe({
       next: data => this.lekiWizyta = data,
       error: err => this.errorMsg = 'Błąd pobierania leków do wizyty.'
     });
-    this.http.get<any[]>('http://localhost:5000/api/leki').subscribe({
+    this.http.get<any[]>('http://localhost:5001/api/leki').subscribe({
       next: data => this.leki = data,
       error: err => this.errorMsg = 'Błąd pobierania leków.'
     });
-    this.http.get<any[]>('http://localhost:5000/api/wizyty').subscribe({
+    this.http.get<any[]>('http://localhost:5001/api/wizyty').subscribe({
       next: data => this.wizyty = data,
       error: err => this.errorMsg = 'Błąd pobierania wizyt.'
     });
@@ -56,7 +56,7 @@ export class LekiPacjentComponent implements OnInit {
       dawka: this.addFormLW.dawka,
       komentarz: this.addFormLW.komentarz
     };
-    this.http.post('http://localhost:5000/api/lek_wizyta', payload).subscribe({
+    this.http.post('http://localhost:5001/api/lek_wizyta', payload).subscribe({
       next: () => { this.loadAll(); this.closeAddModalLW(); },
       error: () => this.errorMsg = 'Błąd dodawania leku do wizyty.'
     });
@@ -83,14 +83,14 @@ export class LekiPacjentComponent implements OnInit {
       dawka: this.editFormLW.dawka,
       komentarz: this.editFormLW.komentarz
     };
-    this.http.put(`http://localhost:5000/api/lek_wizyta`, payload).subscribe({
+    this.http.put(`http://localhost:5001/api/lek_wizyta`, payload).subscribe({
       next: () => { this.loadAll(); this.closeEditModalLW(); },
       error: () => this.errorMsg = 'Błąd edycji leku do wizyty.'
     });
   }
   confirmDeleteLW(lw: any) {
     if (confirm('Na pewno usunąć lek z wizyty?')) {
-      this.http.delete(`http://localhost:5000/api/lek_wizyta/${lw.lek_id}/${lw.wizyta_id}`).subscribe({
+      this.http.delete(`http://localhost:5001/api/lek_wizyta/${lw.lek_id}/${lw.wizyta_id}`).subscribe({
         next: () => this.loadAll(),
         error: () => this.errorMsg = 'Błąd usuwania leku z wizyty.'
       });

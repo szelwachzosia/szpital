@@ -26,7 +26,7 @@ export class PrzedmiotyComponent implements OnInit {
   }
 
   loadPrzedmioty() {
-    this.http.get<any[]>('http://localhost:5000/api/przedmioty').subscribe({
+    this.http.get<any[]>('http://localhost:5001/api/przedmioty').subscribe({
       next: data => this.przedmioty = data,
       error: err => this.errorMsg = 'Błąd pobierania przedmiotów.'
     });
@@ -40,7 +40,7 @@ export class PrzedmiotyComponent implements OnInit {
   closeAddModal() { this.showAddModal = false; }
 
   saveAdd() {
-    this.http.post<any>('http://localhost:5000/api/przedmioty', this.addForm).subscribe({
+    this.http.post<any>('http://localhost:5001/api/przedmioty', this.addForm).subscribe({
       next: () => {
         this.loadPrzedmioty();
         this.closeAddModal();
@@ -58,7 +58,7 @@ export class PrzedmiotyComponent implements OnInit {
   closeEditModal() { this.showEditModal = false; }
 
   saveEdit() {
-    this.http.put<any>(`http://localhost:5000/api/przedmioty/${this.editForm.przedmiot_id}`, this.editForm).subscribe({
+    this.http.put<any>(`http://localhost:5001/api/przedmioty/${this.editForm.przedmiot_id}`, this.editForm).subscribe({
       next: () => {
         this.loadPrzedmioty();
         this.closeEditModal();
@@ -69,7 +69,7 @@ export class PrzedmiotyComponent implements OnInit {
 
   confirmDelete(przedmiot: any) {
     if (confirm('Czy na pewno chcesz usunąć ten przedmiot?')) {
-      this.http.delete<any>(`http://localhost:5000/api/przedmioty/${przedmiot.przedmiot_id}`).subscribe({
+      this.http.delete<any>(`http://localhost:5001/api/przedmioty/${przedmiot.przedmiot_id}`).subscribe({
         next: () => this.loadPrzedmioty(),
         error: err => this.errorMsg = 'Błąd usuwania przedmiotu.'
       });

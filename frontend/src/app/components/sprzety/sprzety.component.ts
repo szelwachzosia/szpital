@@ -26,7 +26,7 @@ export class SprzetyComponent implements OnInit {
   }
 
   loadSprzety() {
-    this.http.get<any[]>('http://localhost:5000/api/sprzet_szpitala').subscribe({
+    this.http.get<any[]>('http://localhost:5001/api/sprzet_szpitala').subscribe({
       next: data => this.sprzety = data,
       error: err => this.errorMsg = 'Błąd pobierania sprzętu.'
     });
@@ -39,7 +39,7 @@ export class SprzetyComponent implements OnInit {
   }
   closeAddModal() { this.showAddModal = false; }
   saveAdd() {
-    this.http.post<any>('http://localhost:5000/api/sprzet_szpitala', this.addForm).subscribe({
+    this.http.post<any>('http://localhost:5001/api/sprzet_szpitala', this.addForm).subscribe({
       next: () => { this.loadSprzety(); this.closeAddModal(); },
       error: err => this.errorMsg = err?.error?.message || 'Błąd dodawania sprzętu.'
     });
@@ -53,7 +53,7 @@ export class SprzetyComponent implements OnInit {
   }
   closeEditModal() { this.showEditModal = false; }
   saveEdit() {
-    this.http.put<any>(`http://localhost:5000/api/sprzet_szpitala/${this.editForm.sprzet_id}`, this.editForm).subscribe({
+    this.http.put<any>(`http://localhost:5001/api/sprzet_szpitala/${this.editForm.sprzet_id}`, this.editForm).subscribe({
       next: () => { this.loadSprzety(); this.closeEditModal(); },
       error: err => this.errorMsg = err?.error?.message || 'Błąd edycji sprzętu.'
     });
@@ -61,7 +61,7 @@ export class SprzetyComponent implements OnInit {
 
   confirmDelete(sprzet: any) {
     if (confirm('Czy na pewno chcesz usunąć ten sprzęt?')) {
-      this.http.delete<any>(`http://localhost:5000/api/sprzet_szpitala/${sprzet.sprzet_id}`).subscribe({
+      this.http.delete<any>(`http://localhost:5001/api/sprzet_szpitala/${sprzet.sprzet_id}`).subscribe({
         next: () => this.loadSprzety(),
         error: err => this.errorMsg = err?.error?.message || 'Błąd usuwania sprzętu.'
       });

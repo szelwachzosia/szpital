@@ -25,12 +25,12 @@ export class PrzedmiotyUzyteComponent implements OnInit {
 
   ngOnInit() {
     this.loadPrzedmiotyUzyte();
-    this.http.get<any[]>('http://localhost:5000/api/przedmioty').subscribe(data => this.przedmioty = data);
-    this.http.get<any[]>('http://localhost:5000/api/wizyty').subscribe(data => this.wizyty = data);
+    this.http.get<any[]>('http://localhost:5001/api/przedmioty').subscribe(data => this.przedmioty = data);
+    this.http.get<any[]>('http://localhost:5001/api/wizyty').subscribe(data => this.wizyty = data);
   }
 
   loadPrzedmiotyUzyte() {
-    this.http.get<any[]>('http://localhost:5000/api/przedmioty_wizyta').subscribe({
+    this.http.get<any[]>('http://localhost:5001/api/przedmioty_wizyta').subscribe({
       next: data => this.przedmiotyUzyte = data,
       error: err => this.errorMsg = err?.error?.error || err?.error?.message || 'Błąd pobierania użytych przedmiotów.'
     });
@@ -52,7 +52,7 @@ export class PrzedmiotyUzyteComponent implements OnInit {
   }
   closeAddModal() { this.showAddModal = false; }
   saveAdd() {
-    this.http.post<any>('http://localhost:5000/api/przedmioty_wizyta', this.addForm).subscribe({
+    this.http.post<any>('http://localhost:5001/api/przedmioty_wizyta', this.addForm).subscribe({
       next: () => { this.loadPrzedmiotyUzyte(); this.closeAddModal(); },
       error: err => this.errorMsg = err?.error?.error || err?.error?.message || 'Błąd dodawania użycia przedmiotu.'
     });
@@ -66,7 +66,7 @@ export class PrzedmiotyUzyteComponent implements OnInit {
   }
   closeEditModal() { this.showEditModal = false; }
   saveEdit() {
-    this.http.put<any>(`http://localhost:5000/api/przedmioty_wizyta/${this.editForm.przedmiot_id}/${this.editForm.wizyta_id}`, this.editForm).subscribe({
+    this.http.put<any>(`http://localhost:5001/api/przedmioty_wizyta/${this.editForm.przedmiot_id}/${this.editForm.wizyta_id}`, this.editForm).subscribe({
       next: () => { this.loadPrzedmiotyUzyte(); this.closeEditModal(); },
       error: err => this.errorMsg = err?.error?.error || err?.error?.message || 'Błąd edycji użycia przedmiotu.'
     });
@@ -76,7 +76,7 @@ export class PrzedmiotyUzyteComponent implements OnInit {
     if (!pu.przedmiot_id || !pu.wizyta_id) return;
     if (confirm('Czy na pewno chcesz usunąć to użycie przedmiotu?')) {
       const key = `${pu.przedmiot_id}/${pu.wizyta_id}`;
-      this.http.delete(`http://localhost:5000/api/przedmioty_wizyta/${key}`).subscribe({
+      this.http.delete(`http://localhost:5001/api/przedmioty_wizyta/${key}`).subscribe({
         next: () => this.loadPrzedmiotyUzyte(),
         error: err => this.errorMsg = err?.error?.error || err?.error?.message || 'Błąd usuwania użycia przedmiotu.'
       });

@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule, HttpClientModule]
 })
 export class ZmianyComponent implements OnInit {
-  apiUrl = 'http://localhost:5000/api/pracownicy_oddzial';
+  apiUrl = 'http://localhost:5001/api/pracownicy_oddzial';
   zmiany: any[] = [];
   selectedZmiana: any = null;
   newZmiana: any = { pracownik_id: '', oddzial_id: '', tydzien_start: '', ilosc_godzin: '' };
@@ -26,8 +26,8 @@ export class ZmianyComponent implements OnInit {
 
   ngOnInit() {
     this.getZmiany();
-    this.http.get<any[]>('http://localhost:5000/api/pracownicy').subscribe(data => this.pracownicy = data);
-    this.http.get<any[]>('http://localhost:5000/api/oddzial').subscribe(data => this.oddzialy = data);
+    this.http.get<any[]>('http://localhost:5001/api/pracownicy').subscribe(data => this.pracownicy = data);
+    this.http.get<any[]>('http://localhost:5001/api/oddzial').subscribe(data => this.oddzialy = data);
   }
 
   getZmiany() {

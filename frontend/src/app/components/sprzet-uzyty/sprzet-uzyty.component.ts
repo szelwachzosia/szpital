@@ -25,12 +25,12 @@ export class SprzetUzytyComponent implements OnInit {
 
   ngOnInit() {
     this.loadSprzetUzyty();
-    this.http.get<any[]>('http://localhost:5000/api/sprzet_szpitala').subscribe(data => this.sprzety = data);
-    this.http.get<any[]>('http://localhost:5000/api/wizyty').subscribe(data => this.wizyty = data);
+    this.http.get<any[]>('http://localhost:5001/api/sprzet_szpitala').subscribe(data => this.sprzety = data);
+    this.http.get<any[]>('http://localhost:5001/api/wizyty').subscribe(data => this.wizyty = data);
   }
 
   loadSprzetUzyty() {
-    this.http.get<any[]>('http://localhost:5000/api/test_sprzet_wizyta').subscribe({
+    this.http.get<any[]>('http://localhost:5001/api/test_sprzet_wizyta').subscribe({
       next: data => this.sprzetUzyty = data,
       error: err => this.errorMsg = 'Błąd pobierania sprzętu użytego.'
     });
@@ -61,7 +61,7 @@ export class SprzetUzytyComponent implements OnInit {
       wizyta_id: Number(this.addForm.wizyta_id),
       ilosc: Number(this.addForm.ilosc)
     };
-    this.http.post('http://localhost:5000/api/sprzet_uzyty', payload).subscribe({
+    this.http.post('http://localhost:5001/api/sprzet_uzyty', payload).subscribe({
       next: () => { this.closeAddModal(); this.loadSprzetUzyty(); },
       error: err => {
         this.errorMsg = err?.error?.message || 'Błąd dodawania sprzętu.';
@@ -82,7 +82,7 @@ export class SprzetUzytyComponent implements OnInit {
       return;
     }
     const key = `${this.editForm.sprzet_id}/${this.editForm.wizyta_id}`;
-    this.http.put(`http://localhost:5000/api/test_sprzet_wizyta/${key}`, this.editForm).subscribe({
+    this.http.put(`http://localhost:5001/api/test_sprzet_wizyta/${key}`, this.editForm).subscribe({
       next: () => { this.closeEditModal(); this.loadSprzetUzyty(); },
       error: err => this.errorMsg = 'Błąd edycji.'
     });
@@ -92,7 +92,7 @@ export class SprzetUzytyComponent implements OnInit {
     if (!su.sprzet_id || !su.wizyta_id) return;
     if (confirm('Czy na pewno chcesz usunąć to użycie sprzętu?')) {
       const key = `${su.sprzet_id}/${su.wizyta_id}`;
-      this.http.delete(`http://localhost:5000/api/test_sprzet_wizyta/${key}`).subscribe({
+      this.http.delete(`http://localhost:5001/api/test_sprzet_wizyta/${key}`).subscribe({
         next: () => this.loadSprzetUzyty(),
         error: err => this.errorMsg = err?.error?.message || 'Błąd usuwania użycia sprzętu.'
       });

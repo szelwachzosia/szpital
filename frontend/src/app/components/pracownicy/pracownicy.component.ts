@@ -20,7 +20,7 @@ export class PracownicyComponent implements OnInit {
   showAddModal = false;
   addForm: any = {};
   errorMsg = '';
-  apiUrl = 'http://localhost:5000/api/pracownicy';
+  apiUrl = 'http://localhost:5001/api/pracownicy';
 
   constructor(private http: HttpClient) {}
 

@@ -5,7 +5,9 @@ import threading
 from sqlite3 import IntegrityError, OperationalError
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+CORS(app, 
+     resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"], "allow_headers": ["Content-Type"]}},
+     supports_credentials=False)
 DB_PATH = 'db/sprawdzenia.db'
 db_lock = threading.Lock()
 
@@ -827,4 +829,4 @@ def delete_przedmioty_wizyta(przedmiot_id, wizyta_id):
     return jsonify({'status': 'ok'})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)

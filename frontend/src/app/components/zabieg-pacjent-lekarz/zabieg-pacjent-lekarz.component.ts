@@ -37,23 +37,23 @@ export class ZabiegPacjentLekarzComponent implements OnInit {
   }
 
   loadAll() {
-    this.http.get<any[]>('http://localhost:5000/api/zabieg_wizyta').subscribe({
+    this.http.get<any[]>('http://localhost:5001/api/zabieg_wizyta').subscribe({
       next: data => this.zabiegiWizyty = data,
       error: err => this.errorMsg = err?.error?.error || err?.error?.message || 'Błąd pobierania zabiegu-wizyt.'
     });
-    this.http.get<any[]>('http://localhost:5000/api/wizyty').subscribe({
+    this.http.get<any[]>('http://localhost:5001/api/wizyty').subscribe({
       next: data => this.wizyty = data,
       error: err => this.errorMsg = err?.error?.error || err?.error?.message || 'Błąd pobierania wizyt.'
     });
-    this.http.get<any[]>('http://localhost:5000/api/zabieg_wizyta').subscribe({
+    this.http.get<any[]>('http://localhost:5001/api/zabieg_wizyta').subscribe({
       next: data => this.zabiegi = data,
       error: err => {}
     });
-    this.http.get<any[]>('http://localhost:5000/api/zabieg_lekarz').subscribe({
+    this.http.get<any[]>('http://localhost:5001/api/zabieg_lekarz').subscribe({
       next: data => this.zabiegiLekarze = data,
       error: err => {}
     });
-    this.http.get<any[]>('http://localhost:5000/api/pracownicy').subscribe({
+    this.http.get<any[]>('http://localhost:5001/api/pracownicy').subscribe({
       next: data => this.lekarze = data.filter(l => l.stanowisko === 'lekarz'),
       error: err => {}
     });
@@ -74,7 +74,7 @@ export class ZabiegPacjentLekarzComponent implements OnInit {
       opis: this.addFormZW.opis,
       wynik: this.addFormZW.wynik
     };
-    this.http.post<any>('http://localhost:5000/api/zabieg_wizyta', payload).subscribe({
+    this.http.post<any>('http://localhost:5001/api/zabieg_wizyta', payload).subscribe({
       next: () => { this.loadAll(); this.closeAddZW(); },
       error: err => this.errorMsg = err?.error?.error || err?.error?.message || 'Błąd dodawania zabiegu.'
     });
@@ -86,14 +86,14 @@ export class ZabiegPacjentLekarzComponent implements OnInit {
   }
   closeEditZW() { this.showEditZW = false; this.selectedZW = null; }
   saveEditZW() {
-    this.http.put<any>(`http://localhost:5000/api/zabieg_wizyta/${this.editFormZW.zabieg_id}`, this.editFormZW).subscribe({
+    this.http.put<any>(`http://localhost:5001/api/zabieg_wizyta/${this.editFormZW.zabieg_id}`, this.editFormZW).subscribe({
       next: () => { this.loadAll(); this.closeEditZW(); },
       error: err => this.errorMsg = err?.error?.error || err?.error?.message || 'Błąd edycji zabiegu.'
     });
   }
   confirmDeleteZW(zw: any) {
     if (confirm('Czy na pewno chcesz usunąć ten zabieg?')) {
-      this.http.delete<any>(`http://localhost:5000/api/zabieg_wizyta/${zw.zabieg_id}`).subscribe({
+      this.http.delete<any>(`http://localhost:5001/api/zabieg_wizyta/${zw.zabieg_id}`).subscribe({
         next: () => this.loadAll(),
         error: err => this.errorMsg = err?.error?.error || err?.error?.message || 'Błąd usuwania zabiegu.'
       });
@@ -114,7 +114,7 @@ export class ZabiegPacjentLekarzComponent implements OnInit {
   }
   closeAddZL() { this.showAddZL = false; }
   saveAddZL() {
-    this.http.post<any>('http://localhost:5000/api/zabieg_lekarz', this.addFormZL).subscribe({
+    this.http.post<any>('http://localhost:5001/api/zabieg_lekarz', this.addFormZL).subscribe({
       next: () => { this.loadAll(); this.closeAddZL(); },
       error: err => this.errorMsg = err?.error?.message || 'Błąd dodawania powiązania.'
     });
@@ -126,14 +126,14 @@ export class ZabiegPacjentLekarzComponent implements OnInit {
   }
   closeEditZL() { this.showEditZL = false; this.selectedZL = null; }
   saveEditZL() {
-    this.http.put<any>(`http://localhost:5000/api/zabieg_lekarz/${this.editFormZL.zabieg_id}/${this.editFormZL.lekarz_id}`, this.editFormZL).subscribe({
+    this.http.put<any>(`http://localhost:5001/api/zabieg_lekarz/${this.editFormZL.zabieg_id}/${this.editFormZL.lekarz_id}`, this.editFormZL).subscribe({
       next: () => { this.loadAll(); this.closeEditZL(); },
       error: err => this.errorMsg = err?.error?.message || 'Błąd edycji powiązania.'
     });
   }
   confirmDeleteZL(zl: any) {
     if (confirm('Czy na pewno chcesz usunąć to powiązanie?')) {
-      this.http.delete<any>(`http://localhost:5000/api/zabieg_lekarz/${zl.zabieg_id}/${zl.lekarz_id}`).subscribe({
+      this.http.delete<any>(`http://localhost:5001/api/zabieg_lekarz/${zl.zabieg_id}/${zl.lekarz_id}`).subscribe({
         next: () => this.loadAll(),
         error: err => this.errorMsg = err?.error?.message || 'Błąd usuwania powiązania.'
       });
@@ -153,7 +153,7 @@ export class ZabiegPacjentLekarzComponent implements OnInit {
       zabieg_id: Number(this.addFormZL.zabieg_id),
       lekarz_id: Number(this.addFormZL.lekarz_id)
     };
-    this.http.post('http://localhost:5000/api/zabieg_lekarz', payload).subscribe({
+    this.http.post('http://localhost:5001/api/zabieg_lekarz', payload).subscribe({
       next: () => { this.closeAddZL(); this.loadAll(); },
       error: err => {
         this.errorMsg = err?.error?.message || 'Błąd dodawania zabiegu-lekarz.';

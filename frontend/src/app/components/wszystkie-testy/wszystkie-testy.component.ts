@@ -18,7 +18,7 @@ export class WszystkieTestyComponent implements OnInit {
   showAddModal = false;
   addForm: { test_id?: number, nazwa: string } = { nazwa: '' };
   errorMsg = '';
-  apiUrl = 'http://localhost:5000/api/wszystkie_testy'; // zmieniony endpoint
+  apiUrl = 'http://localhost:5001/api/wszystkie_testy'; // zmieniony endpoint
 
   constructor(private http: HttpClient) {}
 
@@ -45,7 +45,7 @@ export class WszystkieTestyComponent implements OnInit {
   }
 
   saveEdit() {
-    this.http.put<any>(`http://localhost:5000/api/wszystkie_testy/${this.editForm.test_id}`, this.editForm).subscribe({
+    this.http.put<any>(`http://localhost:5001/api/wszystkie_testy/${this.editForm.test_id}`, this.editForm).subscribe({
       next: () => { this.loadTesty(); this.closeEditModal(); },
       error: err => this.errorMsg = err?.error?.message || 'Błąd edycji testu.'
     });
@@ -58,7 +58,7 @@ export class WszystkieTestyComponent implements OnInit {
   }
   closeAddModal() { this.showAddModal = false; }
   saveAdd() {
-    this.http.post<any>('http://localhost:5000/api/testy', this.addForm).subscribe({
+    this.http.post<any>('http://localhost:5001/api/testy', this.addForm).subscribe({
       next: () => { this.loadTesty(); this.closeAddModal(); },
       error: err => this.errorMsg = err?.error?.message || 'Błąd dodawania testu.'
     });
@@ -66,7 +66,7 @@ export class WszystkieTestyComponent implements OnInit {
 
   confirmDelete(test: any) {
     if (confirm('Czy na pewno chcesz usunąć ten test?')) {
-      this.http.delete<any>(`http://localhost:5000/api/wszystkie_testy/${test.test_id}`).subscribe({
+      this.http.delete<any>(`http://localhost:5001/api/wszystkie_testy/${test.test_id}`).subscribe({
         next: () => this.loadTesty(),
         error: err => this.errorMsg = err?.error?.message || 'Błąd usuwania testu.'
       });

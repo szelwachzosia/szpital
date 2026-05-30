@@ -48,7 +48,7 @@ cd backend
 pip install -r requirements.txt
 python app.py
 ```
-Backend będzie dostępny na `http://localhost:5000`
+Backend będzie dostępny na `http://localhost:5001`
 
 #### Frontend
 ```bash
@@ -61,47 +61,14 @@ Frontend będzie dostępny na `http://localhost:4200`
 ## Dokumentacja
 
 ### Frontend - Strony główne
-![Dashboard](.attachments/dashboard.png)
-*Strona główna aplikacji z menu nawigacyjnym*
-
-![Navbar](.attachments/navbar.png)
-*Pasek nawigacji z linkami do poszczególnych modulów*
 
 ### Zarządzanie pracownikami
-![Lista pracowników](.attachments/pracownicy-lista.png)
+![Lista pracowników](.attachments/pracownicy.png)
 *Widok listy wszystkich pracowników szpitala*
 
-![Edycja pracownika](.attachments/pracownicy-edycja.png)
-*Formularz do dodawania lub edycji danych pracownika*
-
-### Zarządzanie pacjentami
-![Lista pacjentów](.attachments/pacjenci-lista.png)
-*Przeglądanie wszystkich pacjentów w systemie*
-
-![Szczegóły pacjenta](.attachments/pacjent-szczegoly.png)
-*Kompletne informacje o pacjencie*
-
-### Lekarstwa
-![Lista leków](.attachments/leki-lista.png)
-*Katalog dostępnych leków w szpitalu*
-
-![Leki pacjenta](.attachments/leki-pacjent.png)
-*Lekarstwa przypisane konkretnemu pacjentowi*
-
 ### Wizyty i zabiegi
-![Lista wizyt](.attachments/wizyty-lista.png)
+![Lista wizyt](.attachments/wizyty.png)
 *Harmonogram wizyt medycznych*
-
-![Lista zabiegów](.attachments/zabiegi-lista.png)
-*Zabiegi medyczne wykonane na pacjentach*
-
-### Oddział
-![Szczegóły oddziału](.attachments/oddział-szczegoly.png)
-*Informacje o oddziale i jego personelu*
-
-### Testy medyczne
-![Testy pacjenta](.attachments/testy-pacjent.png)
-*Wyniki testów laboratoryjnych pacjenta*
 
 ## Stack technologiczny
 

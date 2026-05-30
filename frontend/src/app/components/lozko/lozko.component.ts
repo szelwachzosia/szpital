@@ -27,8 +27,8 @@ export class LozkoComponent implements OnInit {
   }
 
   loadAll() {
-    this.http.get<any[]>('http://localhost:5000/api/lozko').subscribe(data => this.lozka = data);
-    this.http.get<any[]>('http://localhost:5000/api/oddzial').subscribe(data => this.oddzialy = data);
+    this.http.get<any[]>('http://localhost:5001/api/lozko').subscribe(data => this.lozka = data);
+    this.http.get<any[]>('http://localhost:5001/api/oddzial').subscribe(data => this.oddzialy = data);
   }
 
   openAddModal() {
@@ -39,7 +39,7 @@ export class LozkoComponent implements OnInit {
     this.showAddModal = false;
   }
   saveAdd() {
-    this.http.post('http://localhost:5000/api/lozko', this.addForm).subscribe({
+    this.http.post('http://localhost:5001/api/lozko', this.addForm).subscribe({
       next: () => { this.loadAll(); this.closeAddModal(); this.errorMsg = ''; },
       error: () => this.errorMsg = 'Błąd dodawania łóżka'
     });
@@ -55,14 +55,14 @@ export class LozkoComponent implements OnInit {
   }
   saveEdit() {
     if (!this.selectedLozko) return;
-    this.http.put(`http://localhost:5000/api/lozko/${this.selectedLozko.lozko_id}`, this.editForm).subscribe({
+    this.http.put(`http://localhost:5001/api/lozko/${this.selectedLozko.lozko_id}`, this.editForm).subscribe({
       next: () => { this.loadAll(); this.closeEditModal(); this.errorMsg = ''; },
       error: () => this.errorMsg = 'Błąd edycji łóżka'
     });
   }
   confirmDelete(lozko: any) {
     if (confirm('Na pewno usunąć łóżko?')) {
-      this.http.delete(`http://localhost:5000/api/lozko/${lozko.lozko_id}`).subscribe({
+      this.http.delete(`http://localhost:5001/api/lozko/${lozko.lozko_id}`).subscribe({
         next: () => { this.loadAll(); this.errorMsg = ''; },
         error: () => this.errorMsg = 'Błąd usuwania łóżka'
       });

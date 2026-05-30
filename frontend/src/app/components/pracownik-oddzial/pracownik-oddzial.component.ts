@@ -37,12 +37,12 @@ export class PracownikOddzialComponent implements OnInit {
 
   ngOnInit() {
     this.loadPracownikOddzial();
-    this.http.get<any[]>('http://localhost:5000/api/pracownicy').subscribe(data => this.pracownicy = data);
-    this.http.get<any[]>('http://localhost:5000/api/oddzial').subscribe(data => this.oddzialy = data);
+    this.http.get<any[]>('http://localhost:5001/api/pracownicy').subscribe(data => this.pracownicy = data);
+    this.http.get<any[]>('http://localhost:5001/api/oddzial').subscribe(data => this.oddzialy = data);
   }
 
   loadPracownikOddzial() {
-    let url = 'http://localhost:5000/api/pracownicy_oddzial';
+    let url = 'http://localhost:5001/api/pracownicy_oddzial';
     const params: string[] = [];
     if (this.filterPracownikId) params.push(`pracownik_id=${this.filterPracownikId}`);
     if (this.filterOddzialId) params.push(`oddzial_id=${this.filterOddzialId}`);
@@ -79,7 +79,7 @@ export class PracownikOddzialComponent implements OnInit {
       tydzien_start: this.addForm.tydzien_start,
       ilosc_godzin: this.addForm.ilosc_godzin ? Number(this.addForm.ilosc_godzin) : null
     };
-    this.http.post('http://localhost:5000/api/pracownicy_oddzial', payload).subscribe({
+    this.http.post('http://localhost:5001/api/pracownicy_oddzial', payload).subscribe({
       next: () => { this.closeAddModal(); this.loadPracownikOddzial(); },
       error: err => {
         this.errorMsg = err?.error?.message || 'Błąd dodawania powiązania.';
@@ -100,7 +100,7 @@ export class PracownikOddzialComponent implements OnInit {
       return;
     }
     const key = `${this.editForm.pracownik_id}/${this.editForm.oddzial_id}/${this.editForm.tydzien_start}`;
-    this.http.put(`http://localhost:5000/api/pracownicy_oddzial/${key}`, this.editForm).subscribe({
+    this.http.put(`http://localhost:5001/api/pracownicy_oddzial/${key}`, this.editForm).subscribe({
       next: () => { this.closeEditModal(); this.loadPracownikOddzial(); },
       error: err => this.errorMsg = 'Błąd edycji powiązania.'
     });
@@ -110,7 +110,7 @@ export class PracownikOddzialComponent implements OnInit {
     if (!po.pracownik_id || !po.oddzial_id || !po.tydzien_start) return;
     if (confirm('Czy na pewno chcesz usunąć to powiązanie?')) {
       const key = `${po.pracownik_id}/${po.oddzial_id}/${po.tydzien_start}`;
-      this.http.delete(`http://localhost:5000/api/pracownicy_oddzial/${key}`).subscribe({
+      this.http.delete(`http://localhost:5001/api/pracownicy_oddzial/${key}`).subscribe({
         next: () => this.loadPracownikOddzial(),
         error: err => this.errorMsg = err?.error?.message || 'Błąd usuwania powiązania.'
       });

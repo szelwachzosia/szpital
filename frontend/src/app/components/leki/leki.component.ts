@@ -17,7 +17,7 @@ export class LekiComponent implements OnInit {
   showAddModal = false;
   editForm: any = { nazwa: '', typ: '', producent: '', data_przeterminowania: '' };
   addForm: any = { nazwa: '', typ: '', producent: '', data_przeterminowania: '' };
-  apiUrl = 'http://localhost:5000/api/leki';
+  apiUrl = 'http://localhost:5001/api/leki';
   errorMsg = '';
 
   constructor(private http: HttpClient) {}

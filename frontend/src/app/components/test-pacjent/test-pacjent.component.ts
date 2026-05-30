@@ -15,7 +15,7 @@ export class TestPacjentComponent implements OnInit {
   selectedTest: any = null;
   addForm: any = { pacjent_id: '', sprzet_id: '', data: '', godzina: '', wynik: '', wizyta_id: '', test_nazwa: '' };
   editForm: any = { pacjent_id: '', sprzet_id: '', data: '', godzina: '', wynik: '', wizyta_id: '', test_nazwa: '' };
-  apiUrl = 'http://localhost:5000/api/test_sprzet_wizyta';
+  apiUrl = 'http://localhost:5001/api/test_sprzet_wizyta';
   errorMsg = '';
   pacjenci: any[] = [];
   sprzety: any[] = [];
@@ -30,9 +30,9 @@ export class TestPacjentComponent implements OnInit {
 
   ngOnInit() {
     this.loadTestPacjent();
-    this.http.get<any[]>('http://localhost:5000/api/pacjent').subscribe(data => this.pacjenci = data);
-    this.http.get<any[]>('http://localhost:5000/api/sprzet_szpitala').subscribe(data => this.sprzety = data);
-    this.http.get<any[]>('http://localhost:5000/api/wizyty').subscribe(data => this.wizyty = data);
+    this.http.get<any[]>('http://localhost:5001/api/pacjent').subscribe(data => this.pacjenci = data);
+    this.http.get<any[]>('http://localhost:5001/api/sprzet_szpitala').subscribe(data => this.sprzety = data);
+    this.http.get<any[]>('http://localhost:5001/api/wizyty').subscribe(data => this.wizyty = data);
   }
 
   loadTestPacjent() {
@@ -117,7 +117,7 @@ export class TestPacjentComponent implements OnInit {
   }
 
   openWizytaModal(wizyta_id: number) {
-    this.http.get<any>(`http://localhost:5000/api/wizyty`).subscribe({
+    this.http.get<any>(`http://localhost:5001/api/wizyty`).subscribe({
       next: wizyty => {
         const wizyta = Array.isArray(wizyty) ? wizyty.find((w: any) => w.wizyta_id === wizyta_id) : null;
         this.wizytaDetails = wizyta;

@@ -28,13 +28,13 @@ export class LekarzeComponent implements OnInit {
 
   ngOnInit() {
     this.loadLekarze();
-    this.http.get<any[]>('http://localhost:5000/api/pracownicy').subscribe(data => this.pracownicy = data);
-    this.http.get<any[]>('http://localhost:5000/api/oddzial').subscribe(data => this.oddzialy = data);
+    this.http.get<any[]>('http://localhost:5001/api/pracownicy').subscribe(data => this.pracownicy = data);
+    this.http.get<any[]>('http://localhost:5001/api/oddzial').subscribe(data => this.oddzialy = data);
   }
 
   loadLekarze() {
     // Nowy endpoint: /api/pracownicy?stanowisko=lekarz
-    this.http.get<any[]>('http://localhost:5000/api/pracownicy').subscribe(data => {
+    this.http.get<any[]>('http://localhost:5001/api/pracownicy').subscribe(data => {
       this.lekarze = data.filter(p => p.stanowisko === 'lekarz');
     });
   }
@@ -52,7 +52,7 @@ export class LekarzeComponent implements OnInit {
 
   saveEdit() {
     if (!this.selectedLekarz) return;
-    this.http.put(`http://localhost:5000/api/lekarze/${this.selectedLekarz.lekarz_id}`, this.editForm)
+    this.http.put(`http://localhost:5001/api/lekarze/${this.selectedLekarz.lekarz_id}`, this.editForm)
       .subscribe(() => {
         this.closeEditModal();
         this.loadLekarze();
@@ -69,7 +69,7 @@ export class LekarzeComponent implements OnInit {
   }
 
   saveAdd() {
-    this.http.post('http://localhost:5000/api/lekarze', this.addForm)
+    this.http.post('http://localhost:5001/api/lekarze', this.addForm)
       .subscribe(() => {
         this.closeAddModal();
         this.loadLekarze();
@@ -78,7 +78,7 @@ export class LekarzeComponent implements OnInit {
 
   confirmDelete(lekarz: any) {
     if (confirm(`Czy na pewno chcesz usunąć lekarza o ID: ${lekarz.lekarz_id}?`)) {
-      this.http.delete(`http://localhost:5000/api/lekarze/${lekarz.lekarz_id}`)
+      this.http.delete(`http://localhost:5001/api/lekarze/${lekarz.lekarz_id}`)
         .subscribe(() => this.loadLekarze());
     }
   }

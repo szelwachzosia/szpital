@@ -26,13 +26,13 @@ export class WizytyComponent implements OnInit {
 
   ngOnInit() {
     this.loadWizyty();
-    this.http.get<any[]>('http://localhost:5000/api/pacjent').subscribe(data => this.pacjenci = data);
-    this.http.get<any[]>('http://localhost:5000/api/pracownicy').subscribe(data => this.pracownicy = data);
-    this.http.get<any[]>('http://localhost:5000/api/lozko').subscribe(data => this.lozka = data);
+    this.http.get<any[]>('http://localhost:5001/api/pacjent').subscribe(data => this.pacjenci = data);
+    this.http.get<any[]>('http://localhost:5001/api/pracownicy').subscribe(data => this.pracownicy = data);
+    this.http.get<any[]>('http://localhost:5001/api/lozko').subscribe(data => this.lozka = data);
   }
 
   loadWizyty() {
-    this.http.get<any[]>('http://localhost:5000/api/wizyty').subscribe({
+    this.http.get<any[]>('http://localhost:5001/api/wizyty').subscribe({
       next: data => this.wizyty = data,
       error: err => this.errorMsg = 'Błąd pobierania wizyt.'
     });
@@ -61,7 +61,7 @@ export class WizytyComponent implements OnInit {
       rodzaj_wizyty: this.addForm.rodzaj_wizyty,
       komentarz: this.addForm.komentarz || ''
     };
-    this.http.post('http://localhost:5000/api/wizyty', payload).subscribe({
+    this.http.post('http://localhost:5001/api/wizyty', payload).subscribe({
       next: () => { this.closeAddModal(); this.loadWizyty(); },
       error: err => {
         this.errorMsg = err?.error?.message || 'Błąd dodawania wizyty.';
@@ -78,7 +78,7 @@ export class WizytyComponent implements OnInit {
   closeEditModal() { this.showEditModal = false; }
 
   saveEdit() {
-    this.http.put<any>(`http://localhost:5000/api/wizyty/${this.editForm.wizyta_id}`, this.editForm).subscribe({
+    this.http.put<any>(`http://localhost:5001/api/wizyty/${this.editForm.wizyta_id}`, this.editForm).subscribe({
       next: () => { this.loadWizyty(); this.closeEditModal(); },
       error: err => this.errorMsg = 'Błąd edycji wizyty.'
     });
@@ -86,7 +86,7 @@ export class WizytyComponent implements OnInit {
 
   confirmDelete(wizyta: any) {
     if (confirm('Czy na pewno chcesz usunąć tę wizytę?')) {
-      this.http.delete<any>(`http://localhost:5000/api/wizyty/${wizyta.wizyta_id}`).subscribe({
+      this.http.delete<any>(`http://localhost:5001/api/wizyty/${wizyta.wizyta_id}`).subscribe({
         next: () => this.loadWizyty(),
         error: err => this.errorMsg = 'Błąd usuwania wizyty.'
       });
